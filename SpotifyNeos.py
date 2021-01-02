@@ -12,7 +12,7 @@ SPOTIPY_CLIENT_SECRET = ''
 SPOTIPY_REDIRECT_URI = 'http://localhost:8000'
 SCOPE = "user-library-read,user-read-currently-playing,user-read-playback-position,user-read-playback-state,user-modify-playback-state,app-remote-control,streaming,playlist-read-private,playlist-modify-private,playlist-modify-public"
 CACHE = '.spotipyoauthcache'
-STREAM_URL = 'http://omnisocket.ddns.net:8080'
+STREAM_URL = ''
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI, scope=SCOPE,cache_path=CACHE,open_browser=True))
 
@@ -118,7 +118,6 @@ async def echo(websocket, path):
                 sp.start_playback()
                 await websocket.send('!statusPlaying')
 
-
             elif command == 'volume':
                 try:
                     #sp.volume(volume_percent=int(extra1), device_id=device_id)
@@ -127,7 +126,6 @@ async def echo(websocket, path):
                 except spotipy.exceptions.SpotifyException:
                     await websocket.send('!statusError adjusting volume, it might not be allowed on your selected device')
                 
-
             elif command == 'shuffle':
                 #sp.shuffle(state=True, device_id=device_id)
                 sp.shuffle(state=True)
@@ -237,6 +235,9 @@ async def echo(websocket, path):
                 device_id = devices['devices'][int(extra1)]['id']
                 await websocket.send(devices['devices'][int(extra1)]['name'] + "\!\!\!\!\!\!\!")
             
+            elif command == 'seek':
+                sp.seek_track(int(extra1))
+
             else:
                 await websocket.send("!statusUnknown Command")
     except websockets.exceptions.ConnectionClosedError: 
