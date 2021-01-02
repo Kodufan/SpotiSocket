@@ -25,4 +25,11 @@ This program, along with the controller inside Neos, have the cool ability of ea
 
 Neos setup is easy! Just go into the SpotifySocket folder in my public and spawn it out. Crack it open in the inspector and go to the 'config' slot. You'll find a string valueField. Simply enter your name, and start the script. It should open a window on your desktop, asking for permissions to connect (this only happens when permissions are updated or the cache is lost, you'll likely need to only do this once). After that, you're done! Enjoy your tunes on your own, or with friends. The controller can be made completely local by toggling both visibility switches to 'local'. Show the 'HUD' if you want others to see (or hear) your now playing music. Show controls to allow others to mess with the buttons (some controls like the search button, add to queue buttons, play buttons, skip, and previous, only work when the configured owner presses them). 
 
-Any questions or errors? PM me ingame or shoot me a discord message at Kodufan#7558
+* Issues? Here are some known bugs/tips
+
+- The script doesn't like it when spotify isn't playing when it starts. Make sure to have it running when you start the script and connect with Neos.
+- Desyncs with the Neos can lead to crashes when pausing/playing. Just wait, Neos will attempt to connect again within 10 seconds, and the controller is built to sync itself on connect.
+- Don't hear any audio after setting up the stream? Test it with VLC, and if it is indeed streaming, make sure your multimedia is turned up. The audio is localized at the player, so you will need to be close to it to hear. If none of that works, swap the playback engine back and forth in the "audio strem" slot. 
+- Long latency using the stream function? Duplicate the player and delete the old copy, that ought to give you the most up to date stream.
+
+Any questions or errors? PM me ingame or shoot me a discord message at Kodufan#7558. If you find this useful, feel free to toss me some NCR or KFC.
