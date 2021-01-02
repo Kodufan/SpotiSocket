@@ -10,7 +10,7 @@ from datetime import datetime
 SPOTIPY_CLIENT_ID = ''
 SPOTIPY_CLIENT_SECRET = ''
 SPOTIPY_REDIRECT_URI = 'http://localhost:8000'
-SCOPE = "user-library-read,user-read-currently-playing,user-read-playback-position,user-read-playback-state,user-modify-playback-state,app-remote-control,streaming,playlist-read-private,playlist-modify-private,playlist-modify-public"
+SCOPE = "user-library-modify,user-library-read,user-read-currently-playing,user-read-playback-position,user-read-playback-state,user-modify-playback-state,app-remote-control,streaming,playlist-read-private,playlist-modify-private,playlist-modify-public"
 CACHE = '.spotipyoauthcache'
 STREAM_URL = ''
 
@@ -39,8 +39,7 @@ async def echo(websocket, path):
             tempstatus += 'False\!'
         elif REPEAT_STATUS == "context":
             tempstatus += 'True\!'
-        volume = result['device']['volume_percent']
-        tempstatus += str(result['is_playing']) + "\!" + str(volume) + "\!\!\!\!"
+        tempstatus += str(result['is_playing']) + "\!" + STREAM_URL + "\!\!\!\!"
 
         await websocket.send(tempstatus)
         print (get_time(),'Client connected!')
@@ -86,12 +85,13 @@ async def echo(websocket, path):
                     SONG_PROGRESS = result['progress_ms']
                     SONG_DURATION = result['item']['duration_ms']
                     PLAY_STATUS = result['is_playing']
+                    VOLUME = result['device']['volume_percent']
                     await websocket.send("!current" + 
                         ARTIST + "\!" + 
                         ALBUM + "\!" + 
                         ALBUM_IMG + "\!" +
                         TITLE + "\!" + 
-                        str(STREAM_URL) + "\!" + 
+                        str(VOLUME) + "\!" + 
                         str(SONG_PROGRESS) + "\!" + 
                         str(SONG_DURATION) + "\!" + 
                         str(PLAY_STATUS))
@@ -237,6 +237,19 @@ async def echo(websocket, path):
             
             elif command == 'seek':
                 sp.seek_track(int(extra1))
+
+            elif command == 'addfavorite':
+                a = bool(sp.current_user_saved_tracks_contains(tracks=[result['item']['id']]))
+                print (str(a))
+                print (result['item']['name'])
+                if a:
+                    sp.current_user_saved_tracks_delete(tracks=[result['item']['id']])
+                    print ('contains!')
+                else:
+                    sp.current_user_saved_tracks_add(tracks=[result['item']['id']])
+                    print('don\'t contains!')
+
+                #print (str(sp.current_user_saved_tracks_contains(tracks=[result['item']['id']])))
 
             else:
                 await websocket.send("!statusUnknown Command")
