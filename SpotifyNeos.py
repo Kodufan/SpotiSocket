@@ -191,7 +191,6 @@ async def echo(websocket, path):
             elif command == 'getplaylists':
                 output = '!playlists'
                 if (extra1 == 'nextpage' and eye < len(playlistarr) - 1):
-                    print('hi')
                     eye += 1  
                     for i in playlistarr[eye]:
                         output += i + '\!'
