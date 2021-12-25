@@ -21,7 +21,7 @@ Here's how to get it working...
 
 ## Step 0, Installing Python:
 
-This tool runs entirely on Python. If you don't have it, head over to https://www.python.org/ and grab yourself the latest stable copy.
+This tool runs entirely on Python. If you don't have it, head over to https://www.python.org/ and grab yourself the latest stable copy. **Make sure to click the tickbox to add Python to PATH!**
 
 ## Step 1, Configuring Spotify:
 
