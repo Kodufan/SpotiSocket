@@ -163,14 +163,19 @@ async def server(websocket):
             results = sp.search(query, limit = cache_num)
 
             output = "!search"
-            count = 0
 
             if extra2 == "nameartistcover":
                 for i in range(len(results['tracks']['items'])):
-                    output += (str(results['tracks']['items'][i]['name']) + "\b" 
-                    + str(results['tracks']['items'][i]['artists'][0]['name']) + "\b"
-                    + str(results['tracks']['items'][i]['album']['images'][2]['url']) + "\n")
-                    count += 1
+                    track = str(results['tracks']['items'][i]['name'])
+                    artist = ""
+                    for j in range(len(results['tracks']['items'][i]['artists'])):
+                        artist += str(results['tracks']['items'][i]['artists'][j]['name']) + ", "
+                    artist = artist[:-2]
+                    try: 
+                        cover = str(results['tracks']['items'][i]['album']['images'][1]['url'])
+                    except IndexError:
+                        cover = "https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png"
+                    output += (track + "\b" + artist + "\b" + cover + "\n")
                 output += "\t\t\t\t\t\t\t"
 
             output = output[:-2]
