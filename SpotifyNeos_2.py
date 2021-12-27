@@ -46,7 +46,7 @@ test = sp.devices()
 
 print(get_time() + " Connected to Spotify successfully!")
 
-async def server(websocket):
+async def server(websocket, path):
     # this code runs for each connected client
     result = sp.current_playback()
     devices = sp.devices()
