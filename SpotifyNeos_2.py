@@ -77,7 +77,6 @@ async def server(websocket, path):
             icon = playlists['items'][i]['images'][0]['url']
         except IndexError:
             icon = "https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png"
-        icon = playlists['items'][i]['images'][0]['url']
         playlistarr.append(name + "\b" + icon)
 
     try:
